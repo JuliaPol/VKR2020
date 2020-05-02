@@ -1,8 +1,8 @@
 package com.jpi287.transrelational.importSQL;
 
-import com.jpi287.transrelational.table.Cell;
-import com.jpi287.transrelational.table.Column;
-import com.jpi287.transrelational.table.Table;
+import com.jpi287.transrelational.model.table.Cell;
+import com.jpi287.transrelational.model.table.Column;
+import com.jpi287.transrelational.model.table.Table;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

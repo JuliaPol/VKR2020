@@ -1,14 +1,14 @@
 package com.jpi287.transrelational.importSQL;
 
-import com.jpi287.transrelational.table.Cell;
-import com.jpi287.transrelational.table.Column;
-import com.jpi287.transrelational.table.Table;
+import com.jpi287.transrelational.model.table.Cell;
+import com.jpi287.transrelational.model.table.Column;
+import com.jpi287.transrelational.model.table.Table;
+import com.jpi287.transrelational.sorting.CellComparator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @AllArgsConstructor
@@ -27,7 +27,7 @@ public class ImportToFVTable {
         columnFVT.setColumnId(column.getColumnId());
         columnFVT.setName(column.getName());
         List<Cell> cells = column.getCells();
-        List<Cell> sortedFields = cells.stream().sorted().collect(Collectors.toList());
+        List<Cell> sortedFields = cells.stream().sorted(new CellComparator()).collect(Collectors.toList());
         columnFVT.setCells(sortedFields);
         return columnFVT;
     }

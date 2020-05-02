@@ -1,7 +1,7 @@
 package com.jpi287.transrelational.configuration;
 
-import com.jpi287.transrelational.table.Table;
-import com.jpi287.transrelational.table.rrt.RecordReconstructionTable;
+import com.jpi287.transrelational.model.table.Table;
+import com.jpi287.transrelational.model.table.rrt.RecordReconstructionTable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

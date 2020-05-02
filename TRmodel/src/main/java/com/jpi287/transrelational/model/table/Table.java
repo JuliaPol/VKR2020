@@ -1,4 +1,4 @@
-package com.jpi287.transrelational.table;
+package com.jpi287.transrelational.model.table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.jpi287.transrelational.table;
+package com.jpi287.transrelational.model.table;
 
 import lombok.Data;
 
@@ -7,6 +7,6 @@ import java.util.List;
 @Data
 public class Column {
     private String name;
-    private String columnId;
+    private int columnId;
     private List<Cell> cells;
 }

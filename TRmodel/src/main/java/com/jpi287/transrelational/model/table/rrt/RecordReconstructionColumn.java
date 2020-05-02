@@ -1,4 +1,4 @@
-package com.jpi287.transrelational.table.rrt;
+package com.jpi287.transrelational.model.table.rrt;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecordReconstructionColumn {
     private String name;
-    private String columnId;
+    private int columnId;
     private int[] cells;
 }
