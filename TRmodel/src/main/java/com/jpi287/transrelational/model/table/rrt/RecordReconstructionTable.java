@@ -16,4 +16,16 @@ public class RecordReconstructionTable {
     public RecordReconstructionTable(String name) {
         this.name = name;
     }
+
+    public Object[] getRowByNumber(int number) {
+        Integer[] result = new Integer[columns.get(0).getCells().length - 1];
+        for (int i = 0; i < columns.size(); i++) {
+            result[i] = columns.get(i).getCells()[number];
+        }
+        return result;
+    }
+
+    public Object[] getColumnNames() {
+        return columns.stream().map(RecordReconstructionColumn::getName).toArray(String[]::new);
+    }
 }

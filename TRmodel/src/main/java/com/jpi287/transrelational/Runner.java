@@ -22,6 +22,9 @@ public class Runner implements CommandLineRunner {
         if (scanner.hasNext()) {
             name = scanner.nextLine();
             commandLineParser.parseArguments(name);
+            commandLineParser.printRecordReconstructionTable();
+            System.out.println("                     ");
+            commandLineParser.printFieldValuesTable();
         }
         System.out.println("Hello " + name);
     }

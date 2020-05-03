@@ -50,16 +50,20 @@ public class DummyTables {
         RecordReconstructionTable expectedTable = new RecordReconstructionTable("recordReconstructionTable");
         RecordReconstructionColumn rColumn1 = new RecordReconstructionColumn();
         rColumn1.setCells(new int[]{5, 4, 2, 3, 1});
+        rColumn1.setName("Number");
 
         RecordReconstructionColumn rColumn2 = new RecordReconstructionColumn();
         rColumn2.setCells(new int[]{4, 5, 2, 1, 3});
+        rColumn2.setName("Name");
 
         RecordReconstructionColumn rColumn3 = new RecordReconstructionColumn();
         rColumn3.setCells(new int[]{4, 2, 3, 1, 5});
+        rColumn3.setName("Status");
 
         RecordReconstructionColumn rColumn4 = new RecordReconstructionColumn();
         rColumn4.setCells(new int[]{5, 4, 1, 2, 3});
         expectedTable.setColumns(Arrays.asList(rColumn1, rColumn2, rColumn3, rColumn4));
+        rColumn4.setName("City");
         return expectedTable;
     }
 }
