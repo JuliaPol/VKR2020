@@ -1,4 +1,4 @@
-package com.jpi287.transrelational.services;
+package com.jpi287.transrelational.services.select;
 
 import com.jpi287.transrelational.model.Row;
 import com.jpi287.transrelational.model.table.Cell;

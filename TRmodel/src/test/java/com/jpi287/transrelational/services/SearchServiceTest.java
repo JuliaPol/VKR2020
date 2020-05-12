@@ -4,6 +4,7 @@ import com.jpi287.transrelational.model.DummyTables;
 import com.jpi287.transrelational.model.Row;
 import com.jpi287.transrelational.model.table.Table;
 import com.jpi287.transrelational.model.table.rrt.RecordReconstructionTable;
+import com.jpi287.transrelational.services.select.SearchService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
