@@ -14,11 +14,11 @@ public class DummyTables {
     public static final RecordReconstructionTable RECORD_RECONSTRUCTION_TABLE = getRecordReconstructionTable();
 
     private static Table getFieldValuesTable() {
-        Table sortedTable = new Table("fieldValuesTable");
+        Table sortedTable = new Table("table1");
         Column column1 = new Column();
         column1.setCells(Arrays.asList(new Cell("S1", 4),
                 new Cell("S2", 3), new Cell("S3", 5),
-                new Cell("S4", 1), new Cell("S4", 2)));
+                new Cell("S4", 1), new Cell("S5", 2)));
         column1.setColumnId(0);
         column1.setName("Number");
 
@@ -47,7 +47,7 @@ public class DummyTables {
     }
 
     private static RecordReconstructionTable getRecordReconstructionTable() {
-        RecordReconstructionTable expectedTable = new RecordReconstructionTable("recordReconstructionTable");
+        RecordReconstructionTable expectedTable = new RecordReconstructionTable("table1");
         RecordReconstructionColumn rColumn1 = new RecordReconstructionColumn();
         rColumn1.setCells(new int[]{5, 4, 2, 3, 1});
         rColumn1.setName("Number");

@@ -14,11 +14,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ImportToFVTable {
 
-    private final Table fieldValuesTable;
+    private final List<Table> fieldValuesTables;
 
     public Table convertToFieldValuesTable(Table relationalTable) {
         List<Column> columnsFVTable = relationalTable.getColumns().stream().map(this::mapColumn).collect(Collectors.toList());
+        Table fieldValuesTable = new Table(relationalTable.getName());
         fieldValuesTable.setColumns(columnsFVTable);
+        fieldValuesTables.add(fieldValuesTable);
         return fieldValuesTable;
     }
 

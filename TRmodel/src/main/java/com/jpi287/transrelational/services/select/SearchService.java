@@ -1,14 +1,18 @@
 package com.jpi287.transrelational.services.select;
 
+import com.jpi287.transrelational.configuration.StorageConfiguration;
 import com.jpi287.transrelational.model.Row;
 import com.jpi287.transrelational.model.table.Cell;
 import com.jpi287.transrelational.model.table.Column;
 import com.jpi287.transrelational.model.table.Table;
 import com.jpi287.transrelational.model.table.rrt.RecordReconstructionTable;
+import com.jpi287.transrelational.services.common.ReconstructionService;
 import com.jpi287.transrelational.sorting.CellComparator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,35 +22,68 @@ import java.util.stream.IntStream;
 @AllArgsConstructor
 public class SearchService {
 
-    private final Table fieldValuesTable;
-    private final RecordReconstructionTable recordReconstructionTable;
+    private final StorageConfiguration storageConfiguration;
+    private final ReconstructionService reconstructionService;
 
-    public Row getRowByValueAndColumnName(String columnName, String value) {
+    public List<Row> selectByEqualOperator(String tableName, String columnName, String value) {
+        Table fieldValuesTable = storageConfiguration.getFieldValuesTableByName(tableName);
+        RecordReconstructionTable recordReconstructionTable = storageConfiguration.getRecordReconstructionTableeByName(tableName);
+        Row row = getRowByValueAndColumnName(fieldValuesTable, recordReconstructionTable, columnName, value);
+        return Arrays.asList(row);
+    }
+
+
+    public List<Row> selectByGreaterThanOperator(String tableName, String columnName, String value, boolean orEqual) {
+        Table fieldValuesTable = storageConfiguration.getFieldValuesTableByName(tableName);
+        RecordReconstructionTable recordReconstructionTable = storageConfiguration.getRecordReconstructionTableeByName(tableName);
+        List<Row> result = new ArrayList<>();
+        Column foundColumn = fieldValuesTable.getColumns().stream()
+                .filter(column -> column.getName().equalsIgnoreCase(columnName)).findFirst().orElse(new Column());
+        String currentValue = foundColumn.getCells().get(0).getValue();
+        int currentCell = 0;
+        while (!isResult(currentValue, value) && currentCell < foundColumn.getCells().size() - 2) {
+            int[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, foundColumn.getColumnId(), currentCell);
+            List<String> valuesInRow = reconstructionService.getValuesFromFVTable(fieldValuesTable, rowRR);
+            result.add(new Row(valuesInRow));
+            currentCell++;
+            currentValue = foundColumn.getCells().get(currentCell).getValue();
+        }
+        return result;
+    }
+
+
+    public List<Row> selectByLessThanOperator(String tableName, String columnName, String value, boolean orEqual) {
+        Table fieldValuesTable = storageConfiguration.getFieldValuesTableByName(tableName);
+        RecordReconstructionTable recordReconstructionTable = storageConfiguration.getRecordReconstructionTableeByName(tableName);
+        List<Row> result = new ArrayList<>();
+        Column foundColumn = fieldValuesTable.getColumns().stream()
+                .filter(column -> column.getName().equalsIgnoreCase(columnName)).findFirst().orElse(new Column());
+        String currentValue = foundColumn.getCells().get(foundColumn.getCells().size() - 1).getValue();
+        int currentCell = foundColumn.getCells().size() - 1;
+        while (!isResult(currentValue, value) && currentCell >= 0) {
+            int[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, foundColumn.getColumnId(), currentCell);
+            List<String> valuesInRow = reconstructionService.getValuesFromFVTable(fieldValuesTable, rowRR);
+            result.add(new Row(valuesInRow));
+            currentCell--;
+            currentValue = foundColumn.getCells().get(currentCell).getValue();
+        }
+        return result;
+    }
+
+    public Row getRowByValueAndColumnName(Table fieldValuesTable, RecordReconstructionTable recordReconstructionTable,
+                                          String columnName, String value) {
         Column foundColumn = fieldValuesTable.getColumns().stream()
                 .filter(column -> column.getName().equalsIgnoreCase(columnName)).findFirst().orElse(new Column());
         int columnId = foundColumn.getColumnId();
         Cell cell = new Cell(value, 0);
         int cellIndex = Collections.binarySearch(foundColumn.getCells(), cell, new CellComparator());
-        int[] rowRR = getValuesFromRRTable(columnId, cellIndex);
-        List<String> valuesInRow = IntStream.range(0, rowRR.length).boxed().map(i -> {
-            int lineValue = rowRR[i];
-            i = i == rowRR.length - 1 ? 0 : i + 1;
-            return fieldValuesTable.getColumns().get(i).getCells().get(lineValue - 1).getValue();
-        }).collect(Collectors.toList());
+        int[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, columnId, cellIndex);
+        List<String> valuesInRow = reconstructionService.getValuesFromFVTable(fieldValuesTable, rowRR);
         return new Row(valuesInRow);
     }
 
-    private int[] getValuesFromRRTable(int columnIndex, int cellIndex) {
-        int size = recordReconstructionTable.getColumns().size();
-        int[] row = new int[size];
-        int currentCell = recordReconstructionTable.getColumns().get(columnIndex).getCells()[cellIndex];
-        row[columnIndex] = currentCell;
-        int i = columnIndex + 1;
-        while (i != columnIndex) {
-            currentCell = recordReconstructionTable.getColumns().get(i).getCells()[currentCell - 1];
-            row[i] = currentCell;
-            i = i == size - 1 ? 0 : i + 1;
-        }
-        return row;
+    private boolean isResult(String currentValue, String conditional) {
+        return currentValue.equals(conditional);
     }
+
 }

@@ -15,7 +15,7 @@ public class ImportToFVTableTest {
 
     private Table fieldValuesTable = new Table("fieldValuesTable");
 
-    private ImportToFVTable importToFVTable = new ImportToFVTable(fieldValuesTable);
+    private ImportToFVTable importToFVTable = new ImportToFVTable(Arrays.asList(fieldValuesTable));
 
     @Test
     public void testConvert() {

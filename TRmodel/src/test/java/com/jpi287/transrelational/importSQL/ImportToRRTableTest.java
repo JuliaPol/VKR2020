@@ -17,7 +17,7 @@ public class ImportToRRTableTest {
 
     private RecordReconstructionTable recordReconstructionTable = new RecordReconstructionTable("recordReconstructionTable");
 
-    private ImportToRRTable importToRRTable = new ImportToRRTable(recordReconstructionTable);
+    private ImportToRRTable importToRRTable = new ImportToRRTable(Arrays.asList(recordReconstructionTable));
 
     @Test
     public void testInversePermutation() {

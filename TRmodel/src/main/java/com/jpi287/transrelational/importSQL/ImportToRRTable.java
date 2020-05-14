@@ -16,12 +16,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ImportToRRTable {
 
-    private final RecordReconstructionTable recordReconstructionTable;
+    private final List<RecordReconstructionTable> recordReconstructionTables;
 
     public RecordReconstructionTable convertToRecordReconstructionTable(Table sortedRelationalTable) {
         List<RecordReconstructionColumn> inversePermutationColumns = sortedRelationalTable.getColumns().stream()
                 .map(this::mapColumn).collect(Collectors.toList());
+        RecordReconstructionTable recordReconstructionTable = new RecordReconstructionTable(sortedRelationalTable.getName());
         recordReconstructionTable.setColumns(buildRRColumnsFromInversePermutationColumns(inversePermutationColumns));
+        recordReconstructionTables.add(recordReconstructionTable);
         return recordReconstructionTable;
     }
 
