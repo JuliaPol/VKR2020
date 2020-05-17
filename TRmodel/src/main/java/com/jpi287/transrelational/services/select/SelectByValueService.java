@@ -20,15 +20,19 @@ import java.util.stream.IntStream;
 
 @Component
 @AllArgsConstructor
-public class SearchService {
+public class SelectByValueService {
 
     private final StorageConfiguration storageConfiguration;
     private final ReconstructionService reconstructionService;
 
     public List<Row> selectByEqualOperator(String tableName, String columnName, String value) {
+        long start = System.nanoTime();
         Table fieldValuesTable = storageConfiguration.getFieldValuesTableByName(tableName);
         RecordReconstructionTable recordReconstructionTable = storageConfiguration.getRecordReconstructionTableeByName(tableName);
         Row row = getRowByValueAndColumnName(fieldValuesTable, recordReconstructionTable, columnName, value);
+        long finish = System.nanoTime();
+        long timeElapsed = finish - start;
+        System.out.println("search equal: " + timeElapsed);
         return Arrays.asList(row);
     }
 
@@ -53,6 +57,7 @@ public class SearchService {
 
 
     public List<Row> selectByLessThanOperator(String tableName, String columnName, String value, boolean orEqual) {
+        long start = System.nanoTime();
         Table fieldValuesTable = storageConfiguration.getFieldValuesTableByName(tableName);
         RecordReconstructionTable recordReconstructionTable = storageConfiguration.getRecordReconstructionTableeByName(tableName);
         List<Row> result = new ArrayList<>();
@@ -67,6 +72,9 @@ public class SearchService {
             currentCell--;
             currentValue = foundColumn.getCells().get(currentCell).getValue();
         }
+        long finish = System.nanoTime();
+        long timeElapsed = finish - start;
+        System.out.println("searchLess equal: " + timeElapsed / 1000000);
         return result;
     }
 

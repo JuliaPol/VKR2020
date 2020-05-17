@@ -40,9 +40,9 @@ public class DummyTables {
         column4.setCells(Arrays.asList(new Cell("Athens", 2),
                 new Cell("London", 1), new Cell("London", 4),
                 new Cell("Paris", 3), new Cell("Paris", 5)));
-        sortedTable.setColumns(Arrays.asList(column1, column2, column3, column4));
         column4.setColumnId(3);
         column4.setName("City");
+        sortedTable.setColumns(Arrays.asList(column1, column2, column3, column4));
         return sortedTable;
     }
 

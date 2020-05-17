@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class CommandLineParser {
 
     private final ImportService importService;
-    private final Table fieldValuesTable;
-    private final RecordReconstructionTable recordReconstructionTable;
+//    private final Table fieldValuesTable;
+//    private final RecordReconstructionTable recordReconstructionTable;
 
     private static final String IMPORT = "IMPORT";
 
@@ -28,37 +28,37 @@ public class CommandLineParser {
     }
 
     public void printRecordReconstructionTable() {
-        int columnNumber = recordReconstructionTable.getColumns().size();
-        StringBuilder lineFormat = printHeaderAndReturnLineFormat(recordReconstructionTable.getColumnNames(),
-                columnNumber);
-
-        StringBuilder leftAlignFormat = new StringBuilder("|");
-        for (int i = 0; i < columnNumber; i++) {
-            leftAlignFormat.append(" %-10d |");
-        }
-        leftAlignFormat.append("%n");
-
-        for (int i = 0; i < recordReconstructionTable.getColumns().get(0).getCells().length; i++) {
-            System.out.format(leftAlignFormat.toString(), recordReconstructionTable.getRowByNumber(i));
-        }
-        System.out.format(lineFormat.toString());
+//        int columnNumber = recordReconstructionTable.getColumns().size();
+//        StringBuilder lineFormat = printHeaderAndReturnLineFormat(recordReconstructionTable.getColumnNames(),
+//                columnNumber);
+//
+//        StringBuilder leftAlignFormat = new StringBuilder("|");
+//        for (int i = 0; i < columnNumber; i++) {
+//            leftAlignFormat.append(" %-10d |");
+//        }
+//        leftAlignFormat.append("%n");
+//
+//        for (int i = 0; i < recordReconstructionTable.getColumns().get(0).getCells().length; i++) {
+//            System.out.format(leftAlignFormat.toString(), recordReconstructionTable.getRowByNumber(i));
+//        }
+//        System.out.format(lineFormat.toString());
     }
 
     public void printFieldValuesTable() {
-        int columnNumber = fieldValuesTable.getColumns().size();
-        StringBuilder lineFormat = printHeaderAndReturnLineFormat(fieldValuesTable.getColumnNames(),
-                columnNumber);
-
-        StringBuilder leftAlignFormat = new StringBuilder("|");
-        for (int i = 0; i < columnNumber; i++) {
-            leftAlignFormat.append(" %-10s |");
-        }
-        leftAlignFormat.append("%n");
-
-        for (int i = 0; i < fieldValuesTable.getColumns().get(0).getCells().size(); i++) {
-            System.out.format(leftAlignFormat.toString(), fieldValuesTable.getRowByNumber(i));
-        }
-        System.out.format(lineFormat.toString());
+//        int columnNumber = fieldValuesTable.getColumns().size();
+//        StringBuilder lineFormat = printHeaderAndReturnLineFormat(fieldValuesTable.getColumnNames(),
+//                columnNumber);
+//
+//        StringBuilder leftAlignFormat = new StringBuilder("|");
+//        for (int i = 0; i < columnNumber; i++) {
+//            leftAlignFormat.append(" %-10s |");
+//        }
+//        leftAlignFormat.append("%n");
+//
+//        for (int i = 0; i < fieldValuesTable.getColumns().get(0).getCells().size(); i++) {
+//            System.out.format(leftAlignFormat.toString(), fieldValuesTable.getRowByNumber(i));
+//        }
+//        System.out.format(lineFormat.toString());
     }
 
     private StringBuilder printHeaderAndReturnLineFormat(Object[] columnNames, int size) {

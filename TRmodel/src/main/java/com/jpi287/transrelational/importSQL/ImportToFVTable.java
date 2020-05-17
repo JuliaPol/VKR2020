@@ -1,5 +1,6 @@
 package com.jpi287.transrelational.importSQL;
 
+import com.jpi287.transrelational.configuration.StorageConfiguration;
 import com.jpi287.transrelational.model.table.Cell;
 import com.jpi287.transrelational.model.table.Column;
 import com.jpi287.transrelational.model.table.Table;
@@ -14,13 +15,17 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ImportToFVTable {
 
-    private final List<Table> fieldValuesTables;
+    private StorageConfiguration storageConfiguration;
 
     public Table convertToFieldValuesTable(Table relationalTable) {
+        long start = System.nanoTime();
         List<Column> columnsFVTable = relationalTable.getColumns().stream().map(this::mapColumn).collect(Collectors.toList());
         Table fieldValuesTable = new Table(relationalTable.getName());
         fieldValuesTable.setColumns(columnsFVTable);
-        fieldValuesTables.add(fieldValuesTable);
+        long finish = System.nanoTime();
+        long timeElapsed = finish - start;
+        storageConfiguration.addValueToFVT(fieldValuesTable);
+        System.out.println("FVT: " + timeElapsed / 1000000);
         return fieldValuesTable;
     }
 

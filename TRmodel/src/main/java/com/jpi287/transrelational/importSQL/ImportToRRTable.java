@@ -1,5 +1,6 @@
 package com.jpi287.transrelational.importSQL;
 
+import com.jpi287.transrelational.configuration.StorageConfiguration;
 import com.jpi287.transrelational.model.table.Cell;
 import com.jpi287.transrelational.model.table.Column;
 import com.jpi287.transrelational.model.table.Table;
@@ -16,14 +17,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ImportToRRTable {
 
-    private final List<RecordReconstructionTable> recordReconstructionTables;
+    private final StorageConfiguration storageConfiguration;
 
     public RecordReconstructionTable convertToRecordReconstructionTable(Table sortedRelationalTable) {
+        long start = System.nanoTime();
         List<RecordReconstructionColumn> inversePermutationColumns = sortedRelationalTable.getColumns().stream()
                 .map(this::mapColumn).collect(Collectors.toList());
         RecordReconstructionTable recordReconstructionTable = new RecordReconstructionTable(sortedRelationalTable.getName());
         recordReconstructionTable.setColumns(buildRRColumnsFromInversePermutationColumns(inversePermutationColumns));
-        recordReconstructionTables.add(recordReconstructionTable);
+        long finish = System.nanoTime();
+        long timeElapsed = finish - start;
+        storageConfiguration.addValueToRRT(recordReconstructionTable);
+        System.out.println("RRT: " + timeElapsed / 1000000);
         return recordReconstructionTable;
     }
 
@@ -68,11 +73,5 @@ public class ImportToRRTable {
         int[] cells = new int[column.getCells().length];
         recordReconstructionColumn.setCells(cells);
         return recordReconstructionColumn;
-    }
-
-    public static void main(String[] args) {
-        int[] permutation = {4, 3, 2, 5, 1};
-        int[] p = (new ImportToRRTable(null)).getInversePermutation(permutation);
-        System.out.println(p);
     }
 }

@@ -1,5 +1,6 @@
 package com.jpi287.transrelational.importSQL;
 
+import com.jpi287.transrelational.configuration.StorageConfiguration;
 import com.jpi287.transrelational.model.table.Cell;
 import com.jpi287.transrelational.model.table.Column;
 import com.jpi287.transrelational.model.table.Table;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
@@ -17,7 +19,7 @@ public class ImportToRRTableTest {
 
     private RecordReconstructionTable recordReconstructionTable = new RecordReconstructionTable("recordReconstructionTable");
 
-    private ImportToRRTable importToRRTable = new ImportToRRTable(Arrays.asList(recordReconstructionTable));
+    private ImportToRRTable importToRRTable = new ImportToRRTable(new StorageConfiguration());
 
     @Test
     public void testInversePermutation() {
@@ -54,7 +56,7 @@ public class ImportToRRTableTest {
         sortedTable.setColumns(Arrays.asList(column1, column2, column3, column4));
 
 
-        RecordReconstructionTable expectedTable = new RecordReconstructionTable("recordReconstructionTable");
+        RecordReconstructionTable expectedTable = new RecordReconstructionTable("test");
         RecordReconstructionColumn rColumn1 = new RecordReconstructionColumn();
         rColumn1.setCells(new int[]{5, 4, 2, 3, 1});
 
