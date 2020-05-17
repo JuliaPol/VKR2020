@@ -5,6 +5,7 @@ import com.jpi287.transrelational.model.Row;
 import com.jpi287.transrelational.model.table.Cell;
 import com.jpi287.transrelational.model.table.Column;
 import com.jpi287.transrelational.model.table.Table;
+import com.jpi287.transrelational.model.table.rrt.RecordReconstructionCell;
 import com.jpi287.transrelational.model.table.rrt.RecordReconstructionTable;
 import com.jpi287.transrelational.services.common.ReconstructionService;
 import com.jpi287.transrelational.sorting.CellComparator;
@@ -46,7 +47,7 @@ public class SelectByValueService {
         String currentValue = foundColumn.getCells().get(0).getValue();
         int currentCell = 0;
         while (!isResult(currentValue, value) && currentCell < foundColumn.getCells().size() - 2) {
-            int[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, foundColumn.getColumnId(), currentCell);
+            RecordReconstructionCell[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, foundColumn.getColumnId(), currentCell, false);
             List<String> valuesInRow = reconstructionService.getValuesFromFVTable(fieldValuesTable, rowRR);
             result.add(new Row(valuesInRow));
             currentCell++;
@@ -66,7 +67,7 @@ public class SelectByValueService {
         String currentValue = foundColumn.getCells().get(foundColumn.getCells().size() - 1).getValue();
         int currentCell = foundColumn.getCells().size() - 1;
         while (!isResult(currentValue, value) && currentCell >= 0) {
-            int[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, foundColumn.getColumnId(), currentCell);
+            RecordReconstructionCell[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, foundColumn.getColumnId(), currentCell, false);
             List<String> valuesInRow = reconstructionService.getValuesFromFVTable(fieldValuesTable, rowRR);
             result.add(new Row(valuesInRow));
             currentCell--;
@@ -85,7 +86,7 @@ public class SelectByValueService {
         int columnId = foundColumn.getColumnId();
         Cell cell = new Cell(value, 0);
         int cellIndex = Collections.binarySearch(foundColumn.getCells(), cell, new CellComparator());
-        int[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, columnId, cellIndex);
+        RecordReconstructionCell[] rowRR = reconstructionService.getValuesFromRRTable(recordReconstructionTable, columnId, cellIndex, false);
         List<String> valuesInRow = reconstructionService.getValuesFromFVTable(fieldValuesTable, rowRR);
         return new Row(valuesInRow);
     }

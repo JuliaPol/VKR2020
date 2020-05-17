@@ -3,6 +3,7 @@ package com.jpi287.transrelational.model;
 import com.jpi287.transrelational.model.table.Cell;
 import com.jpi287.transrelational.model.table.Column;
 import com.jpi287.transrelational.model.table.Table;
+import com.jpi287.transrelational.model.table.rrt.RecordReconstructionCell;
 import com.jpi287.transrelational.model.table.rrt.RecordReconstructionColumn;
 import com.jpi287.transrelational.model.table.rrt.RecordReconstructionTable;
 
@@ -49,19 +50,35 @@ public class DummyTables {
     private static RecordReconstructionTable getRecordReconstructionTable() {
         RecordReconstructionTable expectedTable = new RecordReconstructionTable("table1");
         RecordReconstructionColumn rColumn1 = new RecordReconstructionColumn();
-        rColumn1.setCells(new int[]{5, 4, 2, 3, 1});
+        rColumn1.setCells(new RecordReconstructionCell[]{new RecordReconstructionCell(5, false),
+                new RecordReconstructionCell(4, false),
+                new RecordReconstructionCell(2, false),
+                new RecordReconstructionCell(3, false),
+                new RecordReconstructionCell(1, false)});
         rColumn1.setName("Number");
 
         RecordReconstructionColumn rColumn2 = new RecordReconstructionColumn();
-        rColumn2.setCells(new int[]{4, 5, 2, 1, 3});
+        rColumn2.setCells(new RecordReconstructionCell[]{new RecordReconstructionCell(4, false),
+                new RecordReconstructionCell(5, false),
+                new RecordReconstructionCell(2, false),
+                new RecordReconstructionCell(1, false),
+                new RecordReconstructionCell(3, false)});
         rColumn2.setName("Name");
 
         RecordReconstructionColumn rColumn3 = new RecordReconstructionColumn();
-        rColumn3.setCells(new int[]{4, 2, 3, 1, 5});
+        rColumn3.setCells(new RecordReconstructionCell[]{new RecordReconstructionCell(4, false),
+                new RecordReconstructionCell(2, false),
+                new RecordReconstructionCell(3, false),
+                new RecordReconstructionCell(1, false),
+                new RecordReconstructionCell(5, false)});
         rColumn3.setName("Status");
 
         RecordReconstructionColumn rColumn4 = new RecordReconstructionColumn();
-        rColumn4.setCells(new int[]{5, 4, 1, 2, 3});
+        rColumn4.setCells(new RecordReconstructionCell[]{new RecordReconstructionCell(5, false),
+                new RecordReconstructionCell(4, false),
+                new RecordReconstructionCell(1, false),
+                new RecordReconstructionCell(2, false),
+                new RecordReconstructionCell(3, false)});
         expectedTable.setColumns(Arrays.asList(rColumn1, rColumn2, rColumn3, rColumn4));
         rColumn4.setName("City");
         return expectedTable;

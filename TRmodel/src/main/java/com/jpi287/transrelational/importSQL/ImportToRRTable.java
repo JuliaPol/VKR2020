@@ -4,6 +4,7 @@ import com.jpi287.transrelational.configuration.StorageConfiguration;
 import com.jpi287.transrelational.model.table.Cell;
 import com.jpi287.transrelational.model.table.Column;
 import com.jpi287.transrelational.model.table.Table;
+import com.jpi287.transrelational.model.table.rrt.RecordReconstructionCell;
 import com.jpi287.transrelational.model.table.rrt.RecordReconstructionColumn;
 import com.jpi287.transrelational.model.table.rrt.RecordReconstructionTable;
 import lombok.AllArgsConstructor;
@@ -37,7 +38,7 @@ public class ImportToRRTable {
         recordReconstructionColumn.setName(column.getName());
         recordReconstructionColumn.setColumnId(column.getColumnId());
         int[] permutation = column.getCells().stream().mapToInt(Cell::getPositionInColumn).toArray();
-        recordReconstructionColumn.setCells(getInversePermutation(permutation));
+        recordReconstructionColumn.setCells(getInversePermutationCells(permutation));
         return recordReconstructionColumn;
     }
 
@@ -50,16 +51,25 @@ public class ImportToRRTable {
         return inversePermutation;
     }
 
+    // for permutations started from 1
+    RecordReconstructionCell[] getInversePermutationCells(int[] permutation) {
+        RecordReconstructionCell[] inversePermutation = new RecordReconstructionCell[permutation.length];
+        for (int i = 1; i <= permutation.length; i++) {
+            inversePermutation[permutation[i - 1] - 1] = new RecordReconstructionCell(i, false);
+        }
+        return inversePermutation;
+    }
+
     private List<RecordReconstructionColumn> buildRRColumnsFromInversePermutationColumns(List<RecordReconstructionColumn> inversePermutationColumns) {
         List<RecordReconstructionColumn> finalColumns = new ArrayList<>();
         for (int i = 0; i < inversePermutationColumns.size(); i++) {
             RecordReconstructionColumn inversePermutation = inversePermutationColumns.get(i);
             RecordReconstructionColumn recordReconstructionColumn = mapColumnFromInversePermutation(inversePermutation);
             for (int j = 0; j < inversePermutation.getCells().length; j++) {
-                int value = inversePermutation.getCells()[j];
+                int value = inversePermutation.getCells()[j].getValue();
                 int nextColumn = i == inversePermutationColumns.size() - 1 ? 0 : i + 1;
-                int valueFromRightColumn = inversePermutationColumns.get(nextColumn).getCells()[j];
-                recordReconstructionColumn.getCells()[value - 1] = valueFromRightColumn;
+                int valueFromRightColumn = inversePermutationColumns.get(nextColumn).getCells()[j].getValue();
+                recordReconstructionColumn.getCells()[value - 1] = new RecordReconstructionCell(valueFromRightColumn, false);
             }
             finalColumns.add(recordReconstructionColumn);
         }
@@ -70,7 +80,7 @@ public class ImportToRRTable {
         RecordReconstructionColumn recordReconstructionColumn = new RecordReconstructionColumn();
         recordReconstructionColumn.setName(column.getName());
         recordReconstructionColumn.setColumnId(column.getColumnId());
-        int[] cells = new int[column.getCells().length];
+        RecordReconstructionCell[] cells = new RecordReconstructionCell[column.getCells().length];
         recordReconstructionColumn.setCells(cells);
         return recordReconstructionColumn;
     }

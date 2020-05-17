@@ -8,6 +8,7 @@ import com.jpi287.transrelational.services.CommandLineParser;
 import com.jpi287.transrelational.services.GenerateData;
 import com.jpi287.transrelational.services.select.JoinService;
 import com.jpi287.transrelational.services.select.SelectByValueService;
+import com.jpi287.transrelational.services.updateData.DeleteData;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ public class Runner implements CommandLineRunner {
     private final GenerateData generateData;
     private final SelectByValueService selectByValueService;
     private final JoinService joinService;
+    private final DeleteData deleteData;
 
     @Override
     public void run(String... args) {
@@ -40,18 +42,19 @@ public class Runner implements CommandLineRunner {
 //            commandLineParser.printFieldValuesTable();
             int number = 1000;
             Table table = generateData.createTable10Column(number);
-            Table table2 = generateData.createTable10Column2(number);
+//            Table table2 = generateData.createTable10Column2(number);
             Table fvt = importToFVTable.convertToFieldValuesTable(table);
             importToRRTable.convertToRecordReconstructionTable(fvt);
 
-            Table fvt2 = importToFVTable.convertToFieldValuesTable(table2);
-            importToRRTable.convertToRecordReconstructionTable(fvt2);
+//            Table fvt2 = importToFVTable.convertToFieldValuesTable(table2);
+//            importToRRTable.convertToRecordReconstructionTable(fvt2);
             System.out.println("N: " + number/2);
-//            int size = fvt.getColumns().get(3).getCells().size();
-//            String index = fvt.getColumns().get(3).getCells().get(size /2).getValue();
+            int size = fvt.getColumns().get(3).getCells().size();
+            String index = fvt.getColumns().get(3).getCells().get(size /2).getValue();
 //            List<Row> foundRow = selectByValueService.selectByLessThanOperator("testTable", "id", index, false);
+            deleteData.deleteRowByColumnNameAndValue("testTable", "id", index);
 //            System.out.println("count:"  + foundRow.size());
-            joinService.innerJoinByColumnName("testTable", "testTable2", "id");
+//            joinService.innerJoinByColumnName("testTable", "testTable2", "id");
 
         }
         System.out.println("Hello " + name);

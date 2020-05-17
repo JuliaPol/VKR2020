@@ -5,6 +5,7 @@ import com.jpi287.transrelational.model.Row;
 import com.jpi287.transrelational.model.table.Cell;
 import com.jpi287.transrelational.model.table.Column;
 import com.jpi287.transrelational.model.table.Table;
+import com.jpi287.transrelational.model.table.rrt.RecordReconstructionCell;
 import com.jpi287.transrelational.model.table.rrt.RecordReconstructionTable;
 import com.jpi287.transrelational.services.common.ReconstructionService;
 import lombok.AllArgsConstructor;
@@ -38,8 +39,8 @@ public class JoinService {
         List<Pair<Integer, Integer>> foundPairs = mergeJoin(fieldValuesTable1, fieldValuesTable2, columnId);
         List<Row> result = new ArrayList<>();
         for (Pair<Integer, Integer> pair : foundPairs) {
-            int[] rowRR1 = reconstructionService.getValuesFromRRTable(recordReconstructionTable1, columnId, pair.getKey());
-            int[] rowRR2 = reconstructionService.getValuesFromRRTable(recordReconstructionTable2, columnId, pair.getValue());
+            RecordReconstructionCell[] rowRR1 = reconstructionService.getValuesFromRRTable(recordReconstructionTable1, columnId, pair.getKey(), false);
+            RecordReconstructionCell[] rowRR2 = reconstructionService.getValuesFromRRTable(recordReconstructionTable2, columnId, pair.getValue(), false);
             List<String> rows1 = reconstructionService.getValuesFromFVTable(fieldValuesTable1, rowRR1);
             List<String> rows2 = reconstructionService.getValuesFromFVTable(fieldValuesTable2, rowRR2);
             rows1.addAll(rows2);

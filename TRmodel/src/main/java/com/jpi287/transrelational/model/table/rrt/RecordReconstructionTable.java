@@ -1,5 +1,6 @@
 package com.jpi287.transrelational.model.table.rrt;
 
+import com.jpi287.transrelational.model.table.Cell;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class RecordReconstructionTable {
     }
 
     public Object[] getRowByNumber(int number) {
-        Integer[] result = new Integer[columns.get(0).getCells().length - 1];
+        RecordReconstructionCell[] result = new RecordReconstructionCell[columns.get(0).getCells().length - 1];
         for (int i = 0; i < columns.size(); i++) {
             result[i] = columns.get(i).getCells()[number];
         }
